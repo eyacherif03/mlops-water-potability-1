@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Git
+.git/
+
+# Logs
+*.log
+
+# MLflow local
+mlruns/
+
+# CI/CD et infra
+Jenkinsfile
+infra/
+k8s/
