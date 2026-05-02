@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: water-potability
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: water-potability
+  template:
+    metadata:
+      labels:
+        app: water-potability
+    spec:
+      containers:
+        - name: water-potability
+          image: eyacherif03/water-potability-1:latest
+          ports:
+            - containerPort: 5000
+          env:
+            - name: MLFLOW_TRACKING_USERNAME
+              value: "eyacherif03"
+            - name: MLFLOW_TRACKING_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: dagshub-secret
+                  key: token
+            - name: DAGSHUB_USER_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: dagshub-secret
+                  key: token
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
