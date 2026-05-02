@@ -13,7 +13,7 @@ from sklearn.metrics import (
 )
 
 dagshub.init(repo_owner='eyacherif03', repo_name='mlops-water-potability-1', mlflow=True)
-mlflow.set_tracking_uri("")
+mlflow.set_tracking_uri("https://dagshub.com/eyacherif03/mlops-water-potability-1.mlflow")
 EXPERIMENT_NAME = "Experiment1"
 mlflow.set_experiment(EXPERIMENT_NAME)
 
