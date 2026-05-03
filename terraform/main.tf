@@ -1,5 +1,14 @@
+pterraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+  }
+}
+
 provider "aws" {
-  region = "us-east-1"
+  region = var.region
 }
 
 data "aws_availability_zones" "available" {}
@@ -17,17 +26,23 @@ module "vpc" {
 
   enable_nat_gateway = true
   single_nat_gateway = true
+
+  tags = {
+    Project = "water-potability"
+  }
 }
 
 module "eks" {
-  source          = "terraform-aws-modules/eks/aws"
-  version         = "20.0.0"
+  source  = "terraform-aws-modules/eks/aws"
+  version = "20.8.4"
 
   cluster_name    = "water-potability-cluster"
   cluster_version = "1.29"
 
   vpc_id     = module.vpc.vpc_id
   subnet_ids = module.vpc.private_subnets
+
+  cluster_endpoint_public_access = true
 
   eks_managed_node_groups = {
     nodes = {
@@ -36,5 +51,9 @@ module "eks" {
       min_size       = 1
       instance_types = ["t3.small"]
     }
+  }
+
+  tags = {
+    Project = "water-potability"
   }
 }
