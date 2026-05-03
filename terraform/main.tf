@@ -2,7 +2,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 6.0"
+      version = "~> 5.0"
     }
   }
 }
@@ -34,10 +34,10 @@ module "vpc" {
 
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "20.37.1"
+  version = "18.31.2"
 
   cluster_name    = "water-potability-cluster"
-  cluster_version = "1.31"
+  cluster_version = "1.29"
 
   vpc_id     = module.vpc.vpc_id
   subnet_ids = module.vpc.private_subnets
