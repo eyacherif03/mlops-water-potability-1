@@ -38,11 +38,7 @@ module "eks" {
   subnet_ids = module.vpc.private_subnets
 
   cluster_endpoint_public_access           = true
-<<<<<<< HEAD
-  enable_cluster_creator_admin_permissions = false  # ← CRITIQUE pour AWS Academy
-=======
-  enable_cluster_creator_admin_permissions = false  
->>>>>>> 2f4618c93613a96f4990e812db4b9cea420c3ad5
+  enable_cluster_creator_admin_permissions = false
 
   eks_managed_node_groups = {
     nodes = {
@@ -52,8 +48,4 @@ module "eks" {
       instance_types = ["t3.small"]
     }
   }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 2f4618c93613a96f4990e812db4b9cea420c3ad5
