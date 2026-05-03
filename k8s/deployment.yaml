@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: water-potability
-          image: eyacherif03/water-potability-1:latest
+          image: eyach03/water-potability-1:latest
           ports:
             - containerPort: 5000
           env:
