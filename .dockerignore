@@ -15,5 +15,5 @@ mlruns/
 
 # CI/CD et infra
 Jenkinsfile
-infra/
 k8s/
+terraform/
