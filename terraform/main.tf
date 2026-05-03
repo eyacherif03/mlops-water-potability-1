@@ -53,7 +53,7 @@ module "eks" {
   }
 
   # Requis en v20 pour accorder l'accès au cluster
-  enable_cluster_creator_admin_permissions = true
+  enable_cluster_creator_admin_permissions = false
 
   tags = {
     Project = "water-potability"
