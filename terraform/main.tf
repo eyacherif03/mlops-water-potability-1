@@ -29,7 +29,7 @@ module "vpc" {
 
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "19.21.0"
+  version = "18.31.2" 
 
   cluster_name    = "water-potability-cluster"
   cluster_version = "1.29"
