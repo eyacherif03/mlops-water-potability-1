@@ -29,7 +29,7 @@ module "vpc" {
 
 resource "aws_eks_cluster" "this" {
   name     = "water-potability-cluster"
-  version  = "1.29"
+  version  = "1.31"
   role_arn = "arn:aws:iam::732846573888:role/LabRole"
 
   vpc_config {
