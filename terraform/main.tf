@@ -13,6 +13,9 @@ provider "aws" {
 
 data "aws_availability_zones" "available" {}
 
+# ──────────────────────────────────────────
+# VPC
+# ──────────────────────────────────────────
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "5.0.0"
@@ -27,31 +30,36 @@ module "vpc" {
   single_nat_gateway = true
 }
 
-module "eks" {
-  source  = "terraform-aws-modules/eks/aws"
-  version = "18.31.2" 
+# ──────────────────────────────────────────
+# EKS Cluster (sans module, ressources directes)
+# ──────────────────────────────────────────
+resource "aws_eks_cluster" "this" {
+  name     = "water-potability-cluster"
+  version  = "1.29"
+  role_arn = "arn:aws:iam::732846573888:role/LabRole"
 
-  cluster_name    = "water-potability-cluster"
-  cluster_version = "1.29"
-
-  vpc_id                         = module.vpc.vpc_id
-  subnet_ids                     = module.vpc.private_subnets
-  cluster_endpoint_public_access = true
-
- 
-  create_iam_role = false
-  iam_role_arn    = "arn:aws:iam::732846573888:role/LabRole"
-
-  eks_managed_node_groups = {
-    nodes = {
-      desired_size   = 2
-      max_size       = 3
-      min_size       = 1
-      instance_types = ["t3.small"]
-
-      
-      create_iam_role = false
-      iam_role_arn    = "arn:aws:iam::732846573888:role/LabRole"
-    }
+  vpc_config {
+    subnet_ids              = module.vpc.private_subnets
+    endpoint_public_access  = true
   }
+}
+
+# ──────────────────────────────────────────
+# Node Group
+# ──────────────────────────────────────────
+resource "aws_eks_node_group" "nodes" {
+  cluster_name    = aws_eks_cluster.this.name
+  node_group_name = "nodes"
+  node_role_arn   = "arn:aws:iam::732846573888:role/LabRole"
+  subnet_ids      = module.vpc.private_subnets
+
+  instance_types = ["t3.small"]
+
+  scaling_config {
+    desired_size = 2
+    max_size     = 3
+    min_size     = 1
+  }
+
+  depends_on = [aws_eks_cluster.this]
 }
